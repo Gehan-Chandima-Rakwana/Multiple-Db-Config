@@ -1,1 +1,9 @@
-spring.application.name=multiple-db-config
+spring:
+  profiles:
+    active: dev
+  application:
+    name: MULTIPLE-DATABASES
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1/multiple-databases

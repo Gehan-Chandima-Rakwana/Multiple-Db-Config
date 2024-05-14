@@ -1,9 +1,45 @@
+#spring:
+#  datasource:
+#    primary:
+#      url: jdbc:postgresql://127.0.0.1:5433/cakeshop
+#      username: root
+#      password: password
+#      driver-class-name: org.postgresql.Driver
+#      hikari:
+#        poolName: Hikari
+#        auto-commit: false
+#        data-source-properties:
+#          cachePrepStmts: true
+#          prepStmtCacheSize: 250
+#          prepStmtCacheSqlLimit: 2048
+#          useServerPrepStmts: true
+
+#    secondary:
+#      url: jdbc:mysql://localhost:3307/cakeshop?useSSL=false&serverTimezone=UTC
+#      username: root
+#      password: password
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      hikari:
+#        poolName: Hikari
+#        auto-commit: false
+#        data-source-properties:
+#          cachePrepStmts: true
+#          prepStmtCacheSize: 250
+#          prepStmtCacheSqlLimit: 2048
+#          useServerPrepStmts: true
+
+
 spring:
-  profiles:
-    active: dev
-  application:
-    name: MULTIPLE-DATABASES
-server:
-  port: 8080
-  servlet:
-    context-path: /api/v1/multiple-databases
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5433/cakeshop
+    username: root
+    password: password
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      poolName: Hikari
+      auto-commit: false
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
