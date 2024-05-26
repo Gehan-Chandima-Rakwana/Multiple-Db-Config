@@ -14,9 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "USER_DETAILS", indexes = {
-        @Index(name = "USER_DETAILS", columnList = "STATUS_ID")
-})
+@Table(name = "USER_DETAILS")
 public class UserDetails implements Serializable {
     private static final long serialVersionUID = 1L;
 
