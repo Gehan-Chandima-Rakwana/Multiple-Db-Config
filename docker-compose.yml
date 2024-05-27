@@ -25,3 +25,8 @@ services:
     volumes:
       - C:\Gehan\Personal\docker\mysql_data:/var/lib/mysql
     restart: always
+
+
+
+# here volumes property used to store database information in locally.
+# then no need to create tables and other things again an again.

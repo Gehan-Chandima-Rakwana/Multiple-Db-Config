@@ -2,6 +2,7 @@ package com.redowl.multipledbconfig.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -13,15 +14,12 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        basePackages = {
-                "com.redowl.multipledbconfig.legacySYS.dao",
-        },
+        basePackages = "com.redowl.multipledbconfig.legacySYS.dao",
         entityManagerFactoryRef = "secondaryEntityManager",
         transactionManagerRef = "secondaryTransactionManager"
 )
@@ -36,16 +34,12 @@ public class SecondaryDatabaseConfig {
     @Value("${spring.datasource.secondary.password}")
     private String password;
 
-    // Other necessary properties can also be injected similarly
-
     @Bean(name = "secondaryDataSource")
     public DataSource secondaryDataSource() {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(url);
         config.setUsername(username);
         config.setPassword(password);
-        // Other configurations for the secondary DataSource
-
         return new HikariDataSource(config);
     }
 
@@ -54,7 +48,7 @@ public class SecondaryDatabaseConfig {
             EntityManagerFactoryBuilder builder, @Qualifier("secondaryDataSource") DataSource dataSource) {
         return builder
                 .dataSource(dataSource)
-                .packages("com.redowl.multipledbconfig.legacySYS.models") // Package containing SecondaryEntity
+                .packages("com.redowl.multipledbconfig.legacySYS.models")
                 .persistenceUnit("secondary")
                 .build();
     }
@@ -62,6 +56,6 @@ public class SecondaryDatabaseConfig {
     @Bean(name = "secondaryTransactionManager")
     public PlatformTransactionManager secondaryTransactionManager(
             @Qualifier("secondaryEntityManager") EntityManagerFactory entityManagerFactory) {
-        return new JpaTransactionManager((jakarta.persistence.EntityManagerFactory) entityManagerFactory);
+        return new JpaTransactionManager(entityManagerFactory);
     }
 }

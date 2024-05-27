@@ -2,6 +2,7 @@ package com.redowl.multipledbconfig.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -14,7 +15,6 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 @Configuration
@@ -51,7 +51,7 @@ public class PrimaryDatabaseConfig {
             EntityManagerFactoryBuilder builder, @Qualifier("primaryDataSource") DataSource dataSource) {
         return builder
                 .dataSource(dataSource)
-                .packages("com.redowl.multipledbconfig.newSYS.dao")
+                .packages("com.redowl.multipledbconfig.newSYS.models")
                 .persistenceUnit("primary")
                 .build();
     }
@@ -60,6 +60,6 @@ public class PrimaryDatabaseConfig {
     @Bean(name = "primaryTransactionManager")
     public PlatformTransactionManager primaryTransactionManager(
             @Qualifier("primaryEntityManager") EntityManagerFactory entityManagerFactory) {
-        return new JpaTransactionManager((jakarta.persistence.EntityManagerFactory) entityManagerFactory);
+        return new JpaTransactionManager(entityManagerFactory);
     }
 }

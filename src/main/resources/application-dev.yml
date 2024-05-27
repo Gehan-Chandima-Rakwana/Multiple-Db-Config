@@ -15,7 +15,7 @@ spring:
           useServerPrepStmts: true
 
     secondary:
-      url: jdbc:mysql://127.0.0.1:3307/cakeshop?useSSL=false&serverTimezone=UTC
+      url: jdbc:mysql://127.0.0.1:3307/cakeshop?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
       username: root
       password: password
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -27,6 +27,20 @@ spring:
           prepStmtCacheSize: 250
           prepStmtCacheSqlLimit: 2048
           useServerPrepStmts: true
+
+  jpa:
+    primary:
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+      hibernate:
+        ddl-auto: update
+      properties:
+        hibernate:
+          default_schema: cakeshop
+
+    secondary:
+      database-platform: org.hibernate.dialect.MySQL8Dialect
+      hibernate:
+        ddl-auto: update
 
 
 #spring:
