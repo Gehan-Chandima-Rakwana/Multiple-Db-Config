@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "LD_R_STATUS")
+@Table(name = "R_STATUS")
 public class RStatus implements Serializable {
     private static final long serialVersionUID = 1L;
 

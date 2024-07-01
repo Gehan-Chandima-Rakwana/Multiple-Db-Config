@@ -1,12 +1,13 @@
 spring:
   datasource:
     primary:
-      url: jdbc:postgresql://127.0.0.1:5433/cakeshop
+      type: com.zaxxer.hikari.HikariDataSource
+      url: jdbc:postgresql://127.0.0.1:5433/cakeshop?currentSchema=cakeshop
       username: root
       password: password
       driver-class-name: org.postgresql.Driver
       hikari:
-        poolName: Hikari
+        poolName: HikariPrimary
         auto-commit: false
         data-source-properties:
           cachePrepStmts: true
@@ -15,12 +16,13 @@ spring:
           useServerPrepStmts: true
 
     secondary:
+      type: com.zaxxer.hikari.HikariDataSource
       url: jdbc:mysql://127.0.0.1:3307/cakeshop?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
       username: root
       password: password
       driver-class-name: com.mysql.cj.jdbc.Driver
       hikari:
-        poolName: Hikari
+        poolName: HikariSecondary
         auto-commit: false
         data-source-properties:
           cachePrepStmts: true
@@ -30,30 +32,54 @@ spring:
 
   jpa:
     primary:
-      database-platform: org.hibernate.dialect.PostgreSQLDialect
-      hibernate:
-        ddl-auto: update
       properties:
         hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+          ddl-auto: update
           default_schema: cakeshop
 
     secondary:
-      database-platform: org.hibernate.dialect.MySQL8Dialect
-      hibernate:
-        ddl-auto: update
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.MySQL8Dialect
+          ddl-auto: update
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #spring:
 #  datasource:
-#    url: jdbc:postgresql://127.0.0.1:5433/cakeshop
+#    type: com.zaxxer.hikari.HikariDataSource
+#    url: jdbc:postgresql://127.0.0.1:5433/cakeshop?currentSchema=cakeshop
 #    username: root
 #    password: password
 #    driver-class-name: org.postgresql.Driver
 #    hikari:
-#      poolName: Hikari
+#      poolName: HikariPrimary
 #      auto-commit: false
 #      data-source-properties:
 #        cachePrepStmts: true
 #        prepStmtCacheSize: 250
 #        prepStmtCacheSqlLimit: 2048
 #        useServerPrepStmts: true
+#
+#  jpa:
+#    hibernate:
+#      ddl-auto: create-drop
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
+#        default_schema: cakeshop
+#
+
