@@ -1,5 +1,6 @@
 package com.redowl.multipledbconfig.newSYS.mappers;
 
+import com.redowl.multipledbconfig.newSYS.dto.request.MMemberDetailsReqDto;
 import com.redowl.multipledbconfig.newSYS.dto.response.MMemberDetailsResDto;
 import com.redowl.multipledbconfig.newSYS.models.MMemberDetails;
 import org.mapstruct.*;
@@ -15,7 +16,7 @@ public interface MMemberDetailsMapper {
     @Mappings({
             @Mapping(source = "statusId", target = "RStatus.statusId")
     })
-    MMemberDetails toEntity(MMemberDetailsResDto dto);
+    MMemberDetails toEntity(MMemberDetailsReqDto dto);
 
     @Mappings({
             @Mapping(target = "statusId", source = "RStatus.statusId")

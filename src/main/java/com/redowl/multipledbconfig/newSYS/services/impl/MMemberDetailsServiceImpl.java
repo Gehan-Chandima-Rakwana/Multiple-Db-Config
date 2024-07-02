@@ -6,6 +6,7 @@ import com.redowl.multipledbconfig.common.exception.BadRequestAlertException;
 import com.redowl.multipledbconfig.common.search.FilterCriteria;
 import com.redowl.multipledbconfig.common.search.FilterUtility;
 import com.redowl.multipledbconfig.newSYS.dao.MMemberDetailsDao;
+import com.redowl.multipledbconfig.newSYS.dto.request.MMemberDetailsReqDto;
 import com.redowl.multipledbconfig.newSYS.dto.response.MMemberDetailsResDto;
 import com.redowl.multipledbconfig.newSYS.mappers.MMemberDetailsMapper;
 import com.redowl.multipledbconfig.newSYS.models.MMemberDetails;
@@ -89,12 +90,37 @@ public class MMemberDetailsServiceImpl implements MMemberDetailsService {
 
     @Override
     public ResponseEntity<MMemberDetailsResDto> getMemberDetailsById(Long id) {
+        log.info("Inside MemberDetailsService: getMemberDetailsById method");
         try {
             Optional<MMemberDetails> memberDetails = memberDetailsDao.findByMemberIdAndIsActive(id, true);
             if (memberDetails.isPresent()) {
                 return new ResponseEntity<>(memberDetailsMapper.toDto(memberDetails.get()), HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e) {
+            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new BadRequestAlertException(e.getMessage(), ENTITY_NAME, "error");
+        }
+    }
+
+    @Override
+    public ResponseEntity<MMemberDetailsResDto> addMemberDetails(MMemberDetailsReqDto memberDetailsReqDto) {
+        log.info("Inside MemberDetailsService: addMemberDetails method");
+        try {
+            memberDetailsReqDto.setMemberId(null);
+            if (memberDetailsReqDto.getMemberCode() == null || memberDetailsReqDto.getMemberCode().isEmpty())
+                throw new BadRequestAlertException("Member code cannot be empty", ENTITY_NAME, "error");
+
+            if (memberDetailsReqDto.getFirstName() == null || memberDetailsReqDto.getFirstName().isEmpty())
+                throw new BadRequestAlertException("Member name cannot be empty", ENTITY_NAME, "error");
+
+            memberDetailsReqDto.setIsActive(true);
+            memberDetailsReqDto.setStatusId(1);
+
+            MMemberDetails memberDetails = memberDetailsMapper.toEntity(memberDetailsReqDto);
+            memberDetails = memberDetailsDao.save(memberDetails);
+            return new ResponseEntity<>(memberDetailsMapper.toDto(memberDetails), HttpStatus.CREATED);
         }catch (Exception e) {
             e.printStackTrace();
             log.error(e.getMessage());

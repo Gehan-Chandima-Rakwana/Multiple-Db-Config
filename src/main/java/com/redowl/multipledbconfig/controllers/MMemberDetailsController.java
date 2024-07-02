@@ -1,6 +1,7 @@
 package com.redowl.multipledbconfig.controllers;
 
 import com.redowl.multipledbconfig.common.dto.ApiResponseDto;
+import com.redowl.multipledbconfig.newSYS.dto.request.MMemberDetailsReqDto;
 import com.redowl.multipledbconfig.newSYS.dto.response.MMemberDetailsResDto;
 import com.redowl.multipledbconfig.newSYS.services.MMemberDetailsService;
 import lombok.extern.slf4j.Slf4j;
@@ -41,5 +42,12 @@ public class MMemberDetailsController {
     ) {
         log.info("Inside MemberDetailsController: getMemberDetailsById method");
         return memberDetailsService.getMemberDetailsById(id);
+    }
+
+
+    @PostMapping("/add")
+    public ResponseEntity<MMemberDetailsResDto> addMemberDetails(@RequestBody MMemberDetailsReqDto memberDetailsReqDto) {
+        log.info("Inside MemberDetailsController: addMemberDetails method");
+        return memberDetailsService.addMemberDetails(memberDetailsReqDto);
     }
 }
